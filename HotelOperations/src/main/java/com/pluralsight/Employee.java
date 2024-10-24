@@ -1,5 +1,8 @@
 package com.pluralsight;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class Employee {
 
     private int employeeId;
@@ -56,24 +59,68 @@ public class Employee {
         return hoursWorked;
     }
 
-    public double getRegularHours(){
-        return hoursWorked;
+    public double getRegularHours() {
+        return (hoursWorked > 40) ? 40 : hoursWorked;
     }
 
-//    public double getOvertimeHours(){
-//        return
+    public double getOvertimeHours() {
+        return (hoursWorked > 40) ? hoursWorked - 40 : 0;
+    }
+
+    public double getTotalPay() {
+//        if(hoursWorked > 40){
+//            double overTimeHours = hoursWorked - 40;
+//            double regularPay = 40 * payRate;
+//            double overTimePay = overTimeHours * payRate * 1.5;
+//            return regularPay + overTimePay;
+//        }
+//        else {
+//            return this.payRate * this.hoursWorked;
+//        }
+
+        double regularPay = getRegularHours() * payRate;
+        double overTimePay = getOvertimeHours() * payRate * 1.5;
+        return regularPay + overTimePay;
+    }
+
+    public double punchIn(double time){
+        return this.hoursWorked -= time;
+    }
+
+    // todo
+    public double punchIn(){
+        double localHour = LocalDateTime.now().getHour();
+        double localMinute = LocalDateTime.now().getMinute();
+
+        double minutes =  localMinute / 60;
+        double punchInTime = localHour + minutes;
+
+        return this.hoursWorked = this.hoursWorked -  punchInTime;
+    }
+
+    public double punchOut(double time){
+        return this.hoursWorked = this.hoursWorked + time;
+    }
+
+    // todo
+    public double punchOut(){
+        double localHour = LocalDateTime.now().getHour();
+        double localMinute = LocalDateTime.now().getMinute();
+
+        double minutes =  localMinute / 60;
+        double punchInTime = localHour + minutes;
+
+        return this.hoursWorked = this.hoursWorked + punchInTime;
+    }
+
+    public double punchTimeCard(double timeIn, double timeOut){
+        return this.hoursWorked = this.hoursWorked + timeOut - timeIn;
+    }
+
+    // todo
+//    public double punchTimeCard(){
+//        LocalDateTime localDateTime = LocalDateTime.now();
+//
 //    }
-    public double getTotalHours(){
-        if(hoursWorked > 40){
-            double overTimeHours = hoursWorked * 40;
-            double regularPay = 40 * payRate;
-            double overTimePay = overTimeHours * payRate * 1.5;
-            return regularPay + overTimePay;
-        }
-        else {
-            return this.payRate + this.hoursWorked;
-        }
-
-
-    }
 }
+
